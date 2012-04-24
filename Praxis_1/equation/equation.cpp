@@ -16,6 +16,8 @@ int main() {
 	
 	for (int i = 0; i < testCases; i++) {
 		evaluate();
+		cout << endl;
+		if (i < testCases - 1) cout << endl;
 	}
 	return 0;
 }
@@ -50,10 +52,9 @@ void evaluate() {
 			case '(':
 				evaluate();
 			break;
-			case')':
-			break;
-			case 10: // newline
-			
+			case ')':
+			case ' ':
+			case 10: // newline	
 			break;
 			default: // numbers
 				if (operators.size() > 0) {
@@ -77,5 +78,4 @@ void evaluate() {
 		cout << operators.top();
 		operators.pop();
 	}
-	cout << endl << endl	;
 }
