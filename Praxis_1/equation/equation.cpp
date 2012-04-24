@@ -1,34 +1,40 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-void evaluate();
+void evaluate(istream&);
 
 int main() {
 	stack<char> numbers;
 	stack<char> operators;
 	
 	int testCases;
+	string input;
 	cin >> testCases;
-	cin.ignore();
+	//cin.ignore();
 	
 	for (int i = 0; i < testCases; i++) {
-		evaluate();
+		cin >> input;
+		istringstream is(input);
+		evaluate(is);
 		cout << endl;
 		if (i < testCases - 1) cout << endl;
 	}
 	return 0;
 }
 
-void evaluate() {
+void evaluate(istream& is) {
 	stack<char> numbers;
 	stack<char> operators;
 	char c;
 	int state = 0; // 0: start, 1 -> add / sub, 2 -> mul / div
-	do {
-		cin.get(c);
+	bool cont = true;
+	while (cont) {
+		cont = is.get(c);
+		if (!cont) break;
 		switch(c) {
 			case '*':
 			case '/':
@@ -50,9 +56,10 @@ void evaluate() {
 				state = 1;
 			break;
 			case '(':
-				evaluate();
+				evaluate(is);
 			break;
 			case ')':
+				cont = false;
 			case ' ':
 			case 10: // newline	
 			break;
@@ -73,7 +80,7 @@ void evaluate() {
 				}
 			break;
 		}
-	} while (c != 10 && c != ')');
+	}
 	while (operators.size() > 0) {
 		cout << operators.top();
 		operators.pop();
