@@ -1,1 +1,5 @@
 *.bin
+a.out
+.DS_Store
+._*
+*.pdf
