@@ -1,3 +1,6 @@
+sample
+*.in
+*.out
 *.bin
 a.out
 .DS_Store
