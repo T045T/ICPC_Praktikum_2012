@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <sstream>
 
 using namespace std;
 
-bool evaluate() {
+bool evaluate(istream& is) {
 	char currentChar;
 	
 	stack<int> oldSquare;
@@ -14,8 +15,7 @@ bool evaluate() {
 	int square = 0;
 	bool valid = true;
 	
-	do {
-		cin.get(currentChar);
+	while(is.get(currentChar)) {
 		switch(currentChar) {
 			case '(':
 				round++;
@@ -50,17 +50,21 @@ bool evaluate() {
 			default:
 				break;
 		}
-	} while (currentChar != 10 && currentChar != ' ' && currentChar != '\t'); // endline, space, tab
+	} // endline, space, tab
+	valid &= (round == 0) && (square == 0);
 	return valid;
 }
 
 
 int main () {
+	string input;
 	int testCases;
-	cin >> testCases;
-	cin.ignore();
+	getline(cin, input);
+	istringstream iss(input);
+	iss >> testCases;
 	for (int i = 0; i < testCases; i++) {
-		
-		cout << (evaluate() ? "Yes" : "No") << endl;
+		getline(cin, input);
+		istringstream is(input);
+		cout << (evaluate(is) ? "Yes" : "No") << endl;
 	}
 }
