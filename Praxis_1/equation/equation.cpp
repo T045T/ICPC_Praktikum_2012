@@ -8,16 +8,16 @@ using namespace std;
 void evaluate(istream&);
 
 int main() {
-	stack<char> numbers;
-	stack<char> operators;
 	
 	int testCases;
 	string input;
-	cin >> testCases;
-	//cin.ignore();
+	getline(cin, input);
+	istringstream iss(input);
+	iss >> testCases;
 	
 	for (int i = 0; i < testCases; i++) {
-		cin >> input;
+		getline(cin, input);
+		getline(cin, input);
 		istringstream is(input);
 		evaluate(is);
 		cout << endl;
@@ -27,7 +27,6 @@ int main() {
 }
 
 void evaluate(istream& is) {
-	stack<char> numbers;
 	stack<char> operators;
 	char c;
 	int state = 0; // 0: start, 1 -> add / sub, 2 -> mul / div
@@ -57,6 +56,10 @@ void evaluate(istream& is) {
 			break;
 			case '(':
 				evaluate(is);
+				if (operators.size() > 0 && state == 2) {
+					cout << operators.top();
+					operators.pop();
+				}
 			break;
 			case ')':
 				cont = false;
