@@ -15,9 +15,8 @@ struct node {
 int main () {
 	string input;
 
-	vector<node> trie = vector<node>();
 	node* root = new node(false, false);
-	node currentNode;
+	node* currentNode;
 
 	getline(cin, input);
 	istringstream is(input);
@@ -28,20 +27,19 @@ int main () {
 		currentNode = root;
 		for (int j = 0; j < input.size(); j++) {
 			int value = ((char) input[j]) - '0';
-			if (currentNode.children[value] == 0) {
+			if (currentNode->children[value] == 0) {
 				for (int k = j; k < input.size() - 1; k++) {
 					value = ((char) input[j]) - '0';
-					trie.push_back(new node(false, (input[k + 1] == '*')));
-					currentNode.children[value] = &trie.top();
-					currentNode = trie.top();
+					currentNode->children[value] = new node(false, (input[k + 1] == '*'));
+					currentNode = currentNode->children[value];
 				}
 				if (input[input.size() - 1] != '*') {
 					value = ((char) input[j]) - '0';
-					trie.push_back(new node(false, (input[k + 1] == '*')));
-					currentNode.children[value] = &trie.top();
+					currentNode->children[value] = new node(true, (input[input.size()] == '*'));
+					currentNode = currentNode->children[value];
 				}
 			} else {
-				currentNode = *currentNode.children[value];
+				currentNode = currentNode->children[value];
 			}
 		}
 	}
@@ -49,28 +47,32 @@ int main () {
 	istringstream iss(input);
 	int testIPs;
 	iss >> testIPs;
-	for int i = 0; i < testIPs; i++) {
+	for (int i = 0; i < testIPs; i++) {
 		getline(cin, input);
 		bool match = false;
 		int j = 0;
 		currentNode = root;
-		while (!match && j < input.size() - 1) {
+		while (!match && j < input.size()) {
 			int value = ((char) input[j]) - '0';
-			if (currentNode.children[value] == 0) {
-				if (currentNode.subnet) {
+			if (currentNode->children[value] == 0) {
+				cout << "encountered missing node at " << (currentNode->subnet ? "subnet node " : "") << j << endl;
+				if (currentNode->subnet) {
 					match = true;
 				} else {
 					break;
 				}
 			} else {
-				if (currentNode.subnet) {
+				currentNode = currentNode->children[value];
+				cout << "current node is " << (currentNode->subnet ? "subnet node and " : "") << (currentNode->end ? "end node." : "") << endl;
+				if (currentNode->subnet || ((j == input.size() - 1) && currentNode->end)) {
 					match = true;
-				} else {
-					currentNode = *currentNode.children[value];
+					break;
 				}
+				j++;
 			}
 		}
-		if (!match && (j = input.size() - 1) && currentNode.end) match = true;
+		int value = ((char) input[j]) - '0';			
+		if (!match && (j = input.size() - 1) && currentNode->children[value] != 0 && currentNode->children[value]->end) match = true;
 		cout << (match ? "Yes" : "No") << endl;
 	}
 }

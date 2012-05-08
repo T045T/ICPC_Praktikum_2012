@@ -30,6 +30,7 @@ int main() {
 			wildcard = '*';
 		} else { 
 			firstPart = pattern;
+			secondPart = "";
 			wildcard = '0'; 
 		}
 		if (
@@ -43,36 +44,10 @@ int main() {
 			match = i == firstPart.size();
 			i = 0;
 			while (i < secondPart.size() && secondPart[secondPart.size() - (i + 1)] == str[str.size() - (i + 1)]) i++;
-			match = i == secondPart.size();
+			match = match && (i == secondPart.size());
 			cout << (match ? "Yes" : "No") << endl;
 		} else {
 			cout << "No" << endl;
 		}
-		/*
-		match = str.find(firstPart);
-		if (match != string::npos) {
-			if (wildcard == '0') {
-				if (firstPart.size() == str.size()) {
-					cout << "Yes" << endl;
-				} else {
-					cout << "No" << endl;
-				}
-			} else {
-				if ((wildcard == '*' 
-					&& str.size() - (match + 1) >= secondPart.size())
-				|| (wildcard == '+' 
-					&& str.size() - (match + 1) > secondPart.size())) {
-					
-					match = str.find(secondPart, str.size() - secondPart.size() - 1);
-					cout << (match != string::npos ? "Yes" : "No") << endl;
-				} else {
-					cout << "No" << endl;
-				}
-			}
-		} else {
-			cout << "No" << endl;
-		}
-		*/
-	}
-	
+	}	
 }
