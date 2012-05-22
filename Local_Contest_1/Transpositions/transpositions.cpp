@@ -10,23 +10,19 @@ int main() {
 		cin >> dwarves;
 		swaps = 0;
 		vector<int> dwarfVector = vector<int>(dwarves);
+		vector<int> positions = vector<int>(dwarves);
 		for (int i = 0; i < dwarves; i++) {
 			cin >> dwarfVector[i];
+			dwarfVector[i]--;
+			positions[dwarfVector[i]] = i;
 		}
 		for (int i = 0; i < dwarves; i++) {
-			min = dwarfVector[i];
-			minIndex = i;
-			for (int j = i+1;  j < dwarves; j++) {
-				if (dwarfVector[j] < min) {
-					min = dwarfVector[j];
-					minIndex = j;
-				}
-			}
-			if (minIndex != i) {
+			if (positions[i] != i) {
 				swaps++;
-				dwarfVector[minIndex] = dwarfVector[i];
-				dwarfVector[i] = min;
-				while (i+1 < dwarves && dwarfVector[i+1] - dwarfVector[i] <= 1) i++;
+				dwarfVector[positions[i]] = dwarfVector[i];
+				dwarfVector[i] = i;
+				positions[dwarfVector[positions[i]]] = positions[i];
+				positions[i] = i;
 			}
 		}
 		cout << swaps << endl;
