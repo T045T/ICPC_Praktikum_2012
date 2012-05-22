@@ -21,9 +21,7 @@ int main() {
 		count = 0;
 		for (int i = 0; i < houseVec.size(); i++) {
 			for (int j = i+1; j < houseVec.size(); j++) {
-				if (houseVec[j].first - houseVec[i].first > 0.00000001
-					&& houseVec[j].second - houseVec[i].second > 0.00000001
-					&& (int) houseVec[i].first < (int) houseVec[j].first
+				if (   (int) houseVec[i].first  < (int) houseVec[j].first
 					&& (int) houseVec[i].second < (int) houseVec[j].second) {
 					sum += houseVec[j].first - houseVec[i].first;
 					sum += houseVec[j].second - houseVec[i].second;
