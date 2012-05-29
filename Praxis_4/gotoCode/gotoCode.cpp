@@ -31,9 +31,6 @@ int main() {
 	cout << "0" << endl;
 	goto start;
 	
-	// cout << "Read values: " << labels << " | " << edges << " | " << master_vertices << endl;
-	// goto *test_table[0];
-	
 	test_input_loop:
 	static void* test_input_loop_table[] = { &&read_edge_line, &&read_table_line, &&start_bfs };
 	goto *test_input_loop_table[(i >= edges) + (i++ >= edges + master_vertices)];
